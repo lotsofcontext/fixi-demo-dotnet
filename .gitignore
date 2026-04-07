@@ -1,0 +1,61 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+[Ll]og/
+[Ll]ogs/
+
+# VS/Rider cache
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+!src/packages/
+*.lock.json
+
+# Test results
+[Tt]est[Rr]esult*/
+coverage/
+*.coverage
+*.coveragexml
+
+# Publish outputs
+publish/
+*.pubxml
+*.publishproj
+PublishScripts/
+
+# SQLite (generated at runtime)
+*.db
+*.db-shm
+*.db-wal
+
+# EF Core scaffolding
+Migrations/*.Designer.cs
+
+# Rider + ReSharper
+_ReSharper*/
+*.DotSettings.user
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Secrets
+*.pfx
+*.key
+appsettings.Production.json
+.env
+.env.*
+!.env.example
