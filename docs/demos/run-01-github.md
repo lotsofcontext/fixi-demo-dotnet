@@ -4,6 +4,8 @@
 > **Duración**: 3m 51s
 > **Stack**: .NET 9, GitHub (no Azure DevOps)
 > **Resultado**: ✅ PR creado, tests verdes, issue resuelto end-to-end
+>
+> **⚠️ Nota histórica**: este transcript captura el run real del 2026-04-07. Después del run, `skill/SKILL.md` fue **fortalecido contra el North Star Prompt de GlobalMVM** para incluir las 3 secciones nombradas que el cliente exige (descripción técnica, cambios realizados, posibles impactos) y validaciones básicas en plural (tests + lint + build). El [PR #1](https://github.com/lotsofcontext/fixi-demo-dotnet/pull/1) original tiene el template del momento; las descripciones de secciones más abajo en este transcript reflejan la **estructura fortalecida posterior** (consistencia con la versión actual del skill).
 
 Primer rehearsal real del skill `fix-issue` contra un work item seeded en un repo .NET. Este documento captura la evidencia verificable del run para que GlobalMVM pueda auditar el comportamiento del agente.
 
@@ -135,7 +137,7 @@ gh pr create --base master --head fix/WI-101-divide-by-zero-mismo-dia \
 
 **PR creado**: https://github.com/lotsofcontext/fixi-demo-dotnet/pull/1
 
-El PR body incluye las secciones estándar del template de Fixi: Issue / Clasificación / Causa Raíz / Cambios / Testing / Tracking. Además, Fixi marcó explícitamente los acceptance criteria del work item que **no aplican** al repo demo (con `[ ] N/A` y justificación):
+El PR body incluye las secciones del template fortalecido de Fixi: **Issue / Clasificación / Descripción técnica / Cambios realizados / Posibles impactos / Validaciones ejecutadas / Tracking**. Las 3 secciones técnicas centrales (descripción técnica, cambios realizados, posibles impactos) corresponden literal a Cap 8 del [North Star Prompt](../../../fixi/CLAUDE.md) del cliente. Además, Fixi marcó explícitamente los acceptance criteria del work item que **no aplican** al repo demo (con `[ ] N/A` y justificación):
 
 - `LecturasControllerTests.cs` — el repo demo no tiene `LecturasController` (el work item hace referencia a la infraestructura del sistema completo de ISAGEN, no del sandbox)
 - Entrada en `CHANGELOG.md` — no existe en el demo repo
@@ -220,7 +222,7 @@ FIX COMPLETE — WI-101
 
 4. **Los tests de regresión fueron escritos antes del fix** (como parte de [S1-T08](../../../fixi/kanban/tasks/S1-T08-failing-tests-for-bugs.md)) — Fixi no tuvo que generar tests nuevos, solo verificar que los existentes pasaran de rojo a verde.
 
-5. **El PR template estructurado** (Issue / Clasificación / Causa Raíz / Cambios / Testing / Tracking) facilita la revisión humana — un reviewer puede validar cada sección contra el código sin tener que recorrer la PR entera.
+5. **El PR template estructurado** (Issue / Clasificación / Descripción técnica / Cambios realizados / Posibles impactos / Validaciones ejecutadas / Tracking) facilita la revisión humana — un reviewer puede validar cada sección contra el código sin tener que recorrer la PR entera. Las 3 secciones nombradas (descripción técnica, cambios, impactos) cumplen literal el Cap 8 del North Star Prompt del cliente.
 
 ---
 
