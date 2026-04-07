@@ -19,15 +19,6 @@ public class CalculadoraConsumo : ICalculadoraConsumo
         var diasTranscurridos = (actual.FechaLectura - previa.FechaLectura).Days;
         var deltaKwh = actual.ValorKwh - previa.ValorKwh;
 
-        // Lecturas sub-diarias (mismo dia o diferencia < 24h): un mismo medidor puede
-        // tener multiples lecturas el mismo dia (ej: revisiones post-tormenta). En ese
-        // caso retornamos el delta acumulado directo, sin promediar (evita division por
-        // cero y respeta la regla de negocio descrita en WI-101).
-        if (diasTranscurridos < 1)
-        {
-            return deltaKwh;
-        }
-
         // Promedio diario de consumo entre las dos lecturas.
         return deltaKwh / diasTranscurridos;
     }
