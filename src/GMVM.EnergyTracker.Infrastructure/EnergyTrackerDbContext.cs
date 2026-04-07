@@ -16,6 +16,7 @@ public class EnergyTrackerDbContext : DbContext
 
     public DbSet<Medidor> Medidores => Set<Medidor>();
     public DbSet<Lectura> Lecturas => Set<Lectura>();
+    public DbSet<Usuario> Usuarios => Set<Usuario>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -41,6 +42,15 @@ public class EnergyTrackerDbContext : DbContext
                   .HasForeignKey(l => l.MedidorId)
                   .OnDelete(DeleteBehavior.Cascade);
             entity.HasIndex(l => new { l.MedidorId, l.FechaLectura });
+        });
+
+        modelBuilder.Entity<Usuario>(entity =>
+        {
+            entity.HasKey(u => u.Id);
+            entity.Property(u => u.Email).IsRequired().HasMaxLength(200);
+            entity.Property(u => u.PasswordHash).IsRequired().HasMaxLength(500);
+            entity.Property(u => u.Rol).IsRequired().HasMaxLength(20);
+            entity.HasIndex(u => u.Email).IsUnique();
         });
     }
 }
