@@ -18,27 +18,25 @@ public class MedidorService : IMedidorService
 
     public async Task<List<MedidorListItem>> ListarConResumenAsync()
     {
-        var medidores = await _db.Medidores.ToListAsync();
-        var resultado = new List<MedidorListItem>(medidores.Count);
-
-        foreach (var medidor in medidores)
-        {
-            // Obtener la ultima lectura de este medidor.
-            var ultimaLectura = await _db.Lecturas
-                .Where(l => l.MedidorId == medidor.Id)
-                .OrderByDescending(l => l.FechaLectura)
-                .FirstOrDefaultAsync();
-
-            resultado.Add(new MedidorListItem
+        // Single query: EF Core translates the correlated subqueries into SQL,
+        // eliminating the N+1 pattern (WI-102).
+        var resultado = await _db.Medidores
+            .Select(m => new MedidorListItem
             {
-                Id = medidor.Id,
-                Serial = medidor.Serial,
-                Ubicacion = medidor.Ubicacion,
-                ClienteId = medidor.ClienteId,
-                FechaUltimaLectura = ultimaLectura?.FechaLectura,
-                ValorUltimaLectura = ultimaLectura?.ValorKwh
-            });
-        }
+                Id = m.Id,
+                Serial = m.Serial,
+                Ubicacion = m.Ubicacion,
+                ClienteId = m.ClienteId,
+                FechaUltimaLectura = m.Lecturas
+                    .OrderByDescending(l => l.FechaLectura)
+                    .Select(l => (DateTime?)l.FechaLectura)
+                    .FirstOrDefault(),
+                ValorUltimaLectura = m.Lecturas
+                    .OrderByDescending(l => l.FechaLectura)
+                    .Select(l => (decimal?)l.ValorKwh)
+                    .FirstOrDefault()
+            })
+            .ToListAsync();
 
         return resultado;
     }
