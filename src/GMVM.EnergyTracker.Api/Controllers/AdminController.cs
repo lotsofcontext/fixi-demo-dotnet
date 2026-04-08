@@ -1,4 +1,5 @@
 using GMVM.EnergyTracker.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,9 +7,11 @@ namespace GMVM.EnergyTracker.Api.Controllers;
 
 /// <summary>
 /// Operaciones administrativas del sistema.
+/// Requiere autenticacion JWT con rol Admin.
 /// </summary>
 [ApiController]
 [Route("api/admin")]
+[Authorize(Roles = "Admin")]
 public class AdminController : ControllerBase
 {
     private readonly EnergyTrackerDbContext _db;
